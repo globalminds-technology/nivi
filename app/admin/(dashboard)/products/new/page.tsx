@@ -13,10 +13,13 @@ export const metadata: Metadata = {
 
 export default async function NewProductPage() {
   await connection();
-  const [categories, vendors] = await Promise.all([
+  const [categories, vendors, session] = await Promise.all([
     categoryRepository.list(),
     container.getVendors(),
+    container.adminAuth.getCurrentSession(),
   ]);
+
+  const isManager = session?.role === "manager" || Boolean(session?.hideZohoBooks);
 
   return (
     <div className="py-2">
@@ -25,6 +28,7 @@ export default async function NewProductPage() {
         isEditing={false}
         availableCategories={categories}
         availableVendors={vendors}
+        hideCostPriceAndVendor={isManager}
       />
     </div>
   );

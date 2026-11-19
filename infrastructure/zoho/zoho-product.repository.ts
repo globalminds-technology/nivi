@@ -45,6 +45,8 @@ export class ZohoProductRepository implements ProductRepository {
 
     const queryParams: Record<string, string> = {
       per_page: "200",
+      sort_column: "created_time",
+      sort_order: "D",
     };
 
     if (filter?.status === "active") {

@@ -107,13 +107,6 @@ export default function AboutPage() {
             {/* ── 5. FOUNDERS' ADDRESSES: PERAIYUR & MARAIMALAINAGAR (Clean, No Repetition) ── */}
             <div className="max-w-2xl mx-auto space-y-5">
               <div className="text-center space-y-1">
-                <div className="flex items-center justify-center gap-2">
-                  <span className="h-px w-6 bg-[#8C6D37]/40" />
-                  <span className="text-[11px] sm:text-xs font-serif font-bold uppercase tracking-[0.25em] text-[#694208]">
-                    Studio &amp; Presence
-                  </span>
-                  <span className="h-px w-6 bg-[#8C6D37]/40" />
-                </div>
                 <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#1E1611]">
                   Our Roots Across Tamil Nadu
                 </h3>
@@ -138,10 +131,6 @@ export default function AboutPage() {
                         <p className="text-sm text-[#2A1D15] font-serif font-bold leading-relaxed">
                           Madurai District, Tamil Nadu, India.
                         </p>
-                        <div className="pt-1 text-xs text-[#694208] font-bold flex items-center gap-1.5 font-serif">
-                          <Sparkles className="h-3.5 w-3.5 text-[#C9A45C]" />
-                          <span>Artisan Weave Curation &amp; Sourcing</span>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -159,10 +148,6 @@ export default function AboutPage() {
                         <p className="text-sm text-[#2A1D15] font-serif font-bold leading-relaxed">
                           Chengalpattu District, Tamil Nadu, India.
                         </p>
-                        <div className="pt-1 text-xs text-[#694208] font-bold flex items-center gap-1.5 font-serif">
-                          <Sparkles className="h-3.5 w-3.5 text-[#C9A45C]" />
-                          <span>Client Styling &amp; Operations Studio</span>
-                        </div>
                       </div>
                     </div>
                   </div>

@@ -38,15 +38,6 @@ function PinterestIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
   );
 }
 
-function YouTubeIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />
-      <polygon points="10 15 15 12 10 9 10 15" fill="currentColor" />
-    </svg>
-  );
-}
-
 function WhatsAppIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -165,7 +156,7 @@ export function Footer() {
                       Women with tradition, styled for today.
                     </span>
 
-                    {/* Circular Outline Social Icons (Instagram, Facebook, YouTube) starting under NiVi */}
+                    {/* Circular Outline Social Icons (Instagram, Facebook) starting under NiVi */}
                     <div className="flex items-center justify-center gap-1.5 md:gap-2 lg:gap-2.5 pt-1 md:pt-2 lg:pt-2.5 w-full">
                       <a
                         href="https://instagram.com"
@@ -185,16 +176,6 @@ export function Footer() {
                         className="h-5.5 w-5.5 md:h-6.5 md:w-6.5 lg:h-7 lg:w-7 rounded-full border border-[#221811]/60 bg-[#FFFCF5]/85 text-[#221811] hover:bg-[#073C35] hover:text-[#FAF7F0] hover:border-[#073C35] transition-all flex items-center justify-center shadow-xs"
                       >
                         <FacebookIcon className="h-3.5 w-3.5" />
-                      </a>
-
-                      <a
-                        href="https://youtube.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="YouTube"
-                        className="h-5.5 w-5.5 md:h-6.5 md:w-6.5 lg:h-7 lg:w-7 rounded-full border border-[#221811]/60 bg-[#FFFCF5]/85 text-[#221811] hover:bg-[#073C35] hover:text-[#FAF7F0] hover:border-[#073C35] transition-all flex items-center justify-center shadow-xs"
-                      >
-                        <YouTubeIcon className="h-3.5 w-3.5" />
                       </a>
                     </div>
                   </div>
@@ -255,24 +236,6 @@ export function Footer() {
                         Craftsmanship
                       </button>
                     </li>
-                    <li>
-                      <button
-                        type="button"
-                        onClick={() => handleOpenPolicy("disclaimers")}
-                        className="hover:text-[#073C35] transition-colors text-left inline-block cursor-pointer"
-                      >
-                        Sustainability
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        type="button"
-                        onClick={() => handleOpenPolicy("disclaimers")}
-                        className="hover:text-[#073C35] transition-colors text-left inline-block cursor-pointer"
-                      >
-                        Blog
-                      </button>
-                    </li>
                   </ul>
                 </div>
 
@@ -316,7 +279,7 @@ export function Footer() {
                     <li className="pt-0.5 text-[10.5px] xl:text-[11.5px] text-[#221811]/90 font-medium leading-tight">
                       <div className="flex items-center gap-1">
                         <MapPin className="h-3 w-3 text-[#073C35] shrink-0" />
-                        <span>Peraiyur &bull; Maraimalainagar</span>
+                        <span>Peraiyur, Madurai and Maraimalainagar, Chennai</span>
                       </div>
                       <span className="text-[9.5px] xl:text-[10px] text-[#694208] block pl-4">Tamil Nadu, India</span>
                     </li>
@@ -406,7 +369,7 @@ export function Footer() {
             className="absolute inset-0 w-full h-full pointer-events-none select-none z-[5]"
             style={{
               background:
-              "linear-gradient(180deg, rgba(234, 224, 208, 0.98) 0%, rgba(246, 238, 226, 0.96) 24%, rgba(246, 238, 226, 0.90) 38%, rgba(246, 238, 226, 0.80) 46%, rgba(246, 238, 226, 0.25) 54%, rgba(246, 238, 226, 0) 62%)",
+                "linear-gradient(180deg, rgba(234, 224, 208, 0.98) 0%, rgba(246, 238, 226, 0.96) 24%, rgba(246, 238, 226, 0.90) 38%, rgba(246, 238, 226, 0.80) 46%, rgba(246, 238, 226, 0.25) 54%, rgba(246, 238, 226, 0) 62%)",
             }}
           />
 
@@ -460,15 +423,6 @@ export function Footer() {
                       >
                         <FacebookIcon className="h-2.5 w-2.5" />
                       </a>
-                      <a
-                        href="https://youtube.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="YouTube"
-                        className="h-5.5 w-5.5 rounded-full border border-[#221811]/60 bg-[#FFFCF5]/85 text-[#221811] hover:bg-[#073C35] hover:text-[#FAF7F0] hover:border-[#073C35] transition-all flex items-center justify-center shadow-xs"
-                      >
-                        <YouTubeIcon className="h-2.5 w-2.5" />
-                      </a>
                     </div>
                   </div>
                 </div>
@@ -500,8 +454,6 @@ export function Footer() {
                       <ul className="space-y-0.5 text-[10px] text-[#221811] font-medium">
                         <li><Link href="/about" className="hover:text-[#073C35] transition-colors inline-block">Our Story</Link></li>
                         <li><button type="button" onClick={() => handleOpenPolicy("disclaimers")} className="hover:text-[#073C35] transition-colors text-left inline-block">Craftsmanship</button></li>
-                        <li><button type="button" onClick={() => handleOpenPolicy("disclaimers")} className="hover:text-[#073C35] transition-colors text-left inline-block">Sustainability</button></li>
-                        <li><button type="button" onClick={() => handleOpenPolicy("disclaimers")} className="hover:text-[#073C35] transition-colors text-left inline-block">Blog</button></li>
                       </ul>
                     </div>
 
@@ -625,15 +577,6 @@ export function Footer() {
                     >
                       <FacebookIcon className="h-3 w-3" />
                     </a>
-                    <a
-                      href="https://youtube.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="YouTube"
-                      className="h-6.5 w-6.5 md:h-7 md:w-7 rounded-full border border-[#221811]/60 bg-[#FFFCF5]/85 text-[#221811] hover:bg-[#073C35] hover:text-[#FAF7F0] hover:border-[#073C35] transition-all flex items-center justify-center shadow-xs"
-                    >
-                      <YouTubeIcon className="h-3 w-3" />
-                    </a>
                   </div>
                 </div>
 
@@ -657,9 +600,7 @@ export function Footer() {
                     </h4>
                     <ul className="space-y-1 text-[10.5px] md:text-[11.5px] text-[#221811] font-medium leading-tight">
                       <li><Link href="/about" className="hover:text-[#073C35]">Our Story</Link></li>
-                      <li><button type="button" onClick={() => handleOpenPolicy("disclaimers")} className="hover:text-[#073C35]">Craft</button></li>
-                      <li><button type="button" onClick={() => handleOpenPolicy("disclaimers")} className="hover:text-[#073C35]">Ethics</button></li>
-                      <li><button type="button" onClick={() => handleOpenPolicy("disclaimers")} className="hover:text-[#073C35]">Blog</button></li>
+                      <li><button type="button" onClick={() => handleOpenPolicy("disclaimers")} className="hover:text-[#073C35]">Craftsmanship</button></li>
                     </ul>
                   </div>
 

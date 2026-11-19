@@ -43,10 +43,13 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
     notFound();
   }
 
-  const [categories, vendors] = await Promise.all([
+  const [categories, vendors, session] = await Promise.all([
     categoryRepository.list(),
     container.getVendors(),
+    container.adminAuth.getCurrentSession(),
   ]);
+
+  const isManager = session?.role === "manager" || Boolean(session?.hideZohoBooks);
 
   const initialData: InitialProductData = {
     id: product.id,
@@ -97,6 +100,7 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
         isEditing={true}
         availableCategories={categories}
         availableVendors={vendors}
+        hideCostPriceAndVendor={isManager}
       />
     </div>
   );

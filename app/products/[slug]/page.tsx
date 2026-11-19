@@ -75,14 +75,14 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
       tags: p.tags,
       offer: p.offer
         ? {
-            active: p.offer.active,
-            type: p.offer.type,
-            value:
-              p.offer.type === "percent"
-                ? p.offer.percent
-                : Money.toMajor(p.offer.amount),
-            label: p.offer.label,
-          }
+          active: p.offer.active,
+          type: p.offer.type,
+          value:
+            p.offer.type === "percent"
+              ? p.offer.percent
+              : Money.toMajor(p.offer.amount),
+          label: p.offer.label,
+        }
         : null,
     }));
   } catch {
@@ -240,33 +240,32 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
                 offer={
                   product.offer
                     ? {
-                        active: product.offer.active,
-                        type: product.offer.type,
-                        value:
-                          product.offer.type === "percent"
-                            ? product.offer.percent
-                            : Money.toMajor(product.offer.amount),
-                        label: product.offer.label,
-                      }
+                      active: product.offer.active,
+                      type: product.offer.type,
+                      value:
+                        product.offer.type === "percent"
+                          ? product.offer.percent
+                          : Money.toMajor(product.offer.amount),
+                      label: product.offer.label,
+                    }
                     : null
                 }
                 size="lg"
               />
               <p className="text-[11.5px] text-[#6B5A4A] mt-1">
-                Inclusive of all taxes. Free express shipping across India.
+                Inclusive of all taxes.
               </p>
             </div>
 
             {/* Stock Indicator */}
             <div className="flex items-center gap-2 text-xs">
               <span
-                className={`h-2.5 w-2.5 rounded-full ${
-                  product.stock > 5
+                className={`h-2.5 w-2.5 rounded-full ${product.stock > 5
                     ? "bg-emerald-600"
                     : product.stock > 0
                       ? "bg-amber-500"
                       : "bg-red-500"
-                }`}
+                  }`}
               />
               <span className="font-medium text-[#221811]">
                 {product.stock > 5

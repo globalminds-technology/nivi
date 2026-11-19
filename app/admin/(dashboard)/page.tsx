@@ -42,6 +42,7 @@ export default async function AdminProductsPage() {
       status: p.status,
       primaryImageUrl: p.primaryImageUrl,
       galleryCount: p.gallery.length,
+      createdAt: p.createdAt ?? null,
       offer: p.offer
         ? {
             active: p.offer.active,

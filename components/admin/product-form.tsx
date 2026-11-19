@@ -77,6 +77,7 @@ interface ProductFormProps {
   isEditing?: boolean;
   availableCategories?: Category[];
   availableVendors?: Array<{ id: string; name: string }>;
+  hideCostPriceAndVendor?: boolean;
 }
 
 const COMMON_TAGS = ["featured", "new_arrival", "bestseller", "bridal", "handcrafted", "limited_edition"];
@@ -154,6 +155,7 @@ export function ProductForm({
   isEditing = false,
   availableCategories = [],
   availableVendors = [],
+  hideCostPriceAndVendor = false,
 }: ProductFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -644,7 +646,7 @@ export function ProductForm({
               </div>
 
               {/* Price, Cost Price, Preferred Vendor & Stock Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+              <div className={`grid grid-cols-1 sm:grid-cols-2 ${hideCostPriceAndVendor ? "lg:grid-cols-2" : "lg:grid-cols-4"} gap-4 pt-2`}>
                 <Field>
                   <FieldLabel htmlFor="price">Selling Price (INR) *</FieldLabel>
                   <div className="relative">
@@ -667,45 +669,49 @@ export function ProductForm({
                   <FieldDescription>Customer retail price (incl. GST)</FieldDescription>
                 </Field>
 
-                <Field>
-                  <FieldLabel htmlFor="costPrice">Cost Price (INR)</FieldLabel>
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm font-semibold">
-                      ₹
-                    </span>
-                    <Input
-                      id="costPrice"
-                      type="number"
-                      step="any"
-                      min="0"
-                      value={costPrice}
-                      onChange={(e) => setCostPrice(e.target.value)}
-                      placeholder="2600"
-                      className="pl-7 font-mono text-sm"
-                      disabled={isPending}
-                    />
-                  </div>
-                  <FieldDescription>Internal cost for margin tracking</FieldDescription>
-                </Field>
+                {!hideCostPriceAndVendor && (
+                  <>
+                    <Field>
+                      <FieldLabel htmlFor="costPrice">Cost Price (INR)</FieldLabel>
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm font-semibold">
+                          ₹
+                        </span>
+                        <Input
+                          id="costPrice"
+                          type="number"
+                          step="any"
+                          min="0"
+                          value={costPrice}
+                          onChange={(e) => setCostPrice(e.target.value)}
+                          placeholder="2600"
+                          className="pl-7 font-mono text-sm"
+                          disabled={isPending}
+                        />
+                      </div>
+                      <FieldDescription>Internal cost for margin tracking</FieldDescription>
+                    </Field>
 
-                <Field>
-                  <FieldLabel htmlFor="vendorId">Preferred Vendor</FieldLabel>
-                  <select
-                    id="vendorId"
-                    value={vendorId}
-                    onChange={(e) => setVendorId(e.target.value)}
-                    disabled={isPending}
-                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    <option value="">-- None (Optional) --</option>
-                    {availableVendors.map((v) => (
-                      <option key={v.id} value={v.id}>
-                        {v.name}
-                      </option>
-                    ))}
-                  </select>
-                  <FieldDescription>Zoho Books supplier (optional)</FieldDescription>
-                </Field>
+                    <Field>
+                      <FieldLabel htmlFor="vendorId">Preferred Vendor</FieldLabel>
+                      <select
+                        id="vendorId"
+                        value={vendorId}
+                        onChange={(e) => setVendorId(e.target.value)}
+                        disabled={isPending}
+                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        <option value="">-- None (Optional) --</option>
+                        {availableVendors.map((v) => (
+                          <option key={v.id} value={v.id}>
+                            {v.name}
+                          </option>
+                        ))}
+                      </select>
+                      <FieldDescription>Zoho Books supplier (optional)</FieldDescription>
+                    </Field>
+                  </>
+                )}
 
                 <Field>
                   <FieldLabel htmlFor="stock">Available Stock *</FieldLabel>

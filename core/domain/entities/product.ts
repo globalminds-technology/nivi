@@ -43,6 +43,7 @@ export type Product = Readonly<{
   offer: Offer | null;
   status: ProductStatus;
   attributes?: SareeAttributes;
+  createdAt?: string | null;
 }>;
 
 export type ProductProps = Omit<Product, "gallery" | "tags"> & {

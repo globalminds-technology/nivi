@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import Link from "next/link";
 import {
   CheckCircle2,
@@ -54,6 +54,7 @@ export interface SerializedProduct {
   status: "active" | "inactive";
   primaryImageUrl: string | null;
   galleryCount: number;
+  createdAt?: string | null;
   offer: {
     active: boolean;
     type: "percent" | "flat";
@@ -99,7 +100,31 @@ export function ProductTable({ products, zohoOrgId, hideZoho = false }: ProductT
     });
   };
 
-  const filtered = products.filter((p) => {
+  const sortedProducts = useMemo(() => {
+    return [...products].sort((a, b) => {
+      // 1. Sort by createdAt descending if both have valid timestamps
+      if (a.createdAt && b.createdAt) {
+        const timeA = new Date(a.createdAt).getTime();
+        const timeB = new Date(b.createdAt).getTime();
+        if (!isNaN(timeA) && !isNaN(timeB) && timeA !== timeB) {
+          return timeB - timeA;
+        }
+      }
+      if (a.createdAt && !b.createdAt) return -1;
+      if (!a.createdAt && b.createdAt) return 1;
+
+      // 2. Fallback to numeric Zoho item_id descending (newer Zoho items have higher numeric IDs)
+      const numA = Number(a.id);
+      const numB = Number(b.id);
+      if (!isNaN(numA) && !isNaN(numB) && numA !== numB) {
+        return numB - numA;
+      }
+
+      return b.id.localeCompare(a.id);
+    });
+  }, [products]);
+
+  const filtered = sortedProducts.filter((p) => {
     const matchesSearch =
       p.name.toLowerCase().includes(search.toLowerCase()) ||
       p.sku.toLowerCase().includes(search.toLowerCase()) ||
@@ -309,7 +334,7 @@ export function ProductTable({ products, zohoOrgId, hideZoho = false }: ProductT
                         <span className="font-semibold font-mono text-sm text-[#073C35]">
                           {product.priceFormatted}
                         </span>
-                        {product.costPriceFormatted && (
+                        {!hideZoho && product.costPriceFormatted && (
                           <span className="text-[11px] font-mono text-[#6B5A4A]">
                             Cost: {product.costPriceFormatted}
                           </span>

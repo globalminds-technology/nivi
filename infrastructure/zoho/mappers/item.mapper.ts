@@ -223,6 +223,7 @@ export class ZohoItemMapper {
 
     const vendorId = raw.vendor_id ? String(raw.vendor_id) : null;
     const vendorName = raw.vendor_name ? String(raw.vendor_name) : null;
+    const createdAt = raw.created_time ? String(raw.created_time) : null;
 
     return createProduct({
       id: raw.item_id,
@@ -243,6 +244,7 @@ export class ZohoItemMapper {
       offer,
       status: raw.status === "inactive" ? "inactive" : "active",
       attributes,
+      createdAt,
     });
   }
 

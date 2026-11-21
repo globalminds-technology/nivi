@@ -55,7 +55,7 @@ export function StorePoliciesDialog({
                 NiVi Store & Craft Policies
               </h3>
               <p className="text-[11px] text-[#6B5A4A]">
-                Women with tradition, styled for today.
+                Woven with Tradition, Styled for Today.
               </p>
             </div>
           </div>

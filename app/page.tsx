@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { CircularCategoryBar } from "@/components/store/circular-category-bar";
 import { FeaturedCarousel } from "@/components/store/featured-carousel";
+import { FloatingSareeMatch } from "@/components/store/floating-saree-match";
 import { Footer } from "@/components/store/footer";
 import { Header } from "@/components/store/header";
 import type { StoreProductData } from "@/components/store/product-card";
@@ -18,7 +19,7 @@ import { offerCampaignRepository } from "@/infrastructure/offers/offer-campaign-
 export const instant = false;
 
 export const metadata = {
-  title: "NiVi — Women with tradition, styled for today.",
+  title: "NiVi — Woven with Tradition, Styled for Today.",
   description:
     "Curated collection of handcrafted Indian sarees, bespoke festive ensembles and heritage textiles. Delivered across India.",
 };
@@ -232,30 +233,8 @@ export default async function HomePage() {
         </div>
       </main>
 
-      {/* FLOATING ACTION BUTTON: Find Your Perfect Saree */}
-      <Link
-        href="/quiz"
-        className="group fixed bottom-20 md:bottom-5 right-3 md:right-4 z-40 h-13 w-13 sm:h-14 sm:w-14 rounded-full bg-gradient-to-br from-[#0B4B42] via-[#073C35] to-[#03231F] text-[#FAF7F0] border-2 border-[#C9A45C] shadow-[0_8px_24px_rgba(7,60,53,0.45)] hover:shadow-[0_12px_36px_rgba(201,164,92,0.5)] hover:scale-105 active:scale-95 transition-all duration-300 flex flex-col items-center justify-center p-1 focus:outline-hidden ring-2 ring-[#C9A45C]/20 hover:ring-[#C9A45C]/60"
-        aria-label="Find Your Perfect Saree — Saree Matchmaker"
-      >
-        <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E5C378] opacity-75" />
-          <span className="relative inline-flex rounded-full h-3 w-3 bg-[#C9A45C] border border-[#073C35]" />
-        </span>
-
-        <span className="font-serif text-[9.5px] sm:text-[10px] font-bold tracking-widest text-[#FAF7F0] uppercase leading-none">
-          SAREE
-        </span>
-        <span className="text-[7.5px] sm:text-[8px] text-[#E5C378] font-sans font-semibold tracking-wider uppercase leading-none mt-1">
-          MATCH
-        </span>
-
-        <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 hidden md:group-hover:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#073C35]/95 backdrop-blur-md border border-[#C9A45C]/60 text-white shadow-xl whitespace-nowrap pointer-events-none transition-all duration-300 animate-in fade-in slide-in-from-right-2">
-          <span className="font-serif text-xs font-semibold text-[#FFFCF5]">Find Your Perfect Saree</span>
-          <span className="text-[10px] text-[#E5C378] font-sans font-medium uppercase tracking-wider">• 2-Min Matchmaker</span>
-          <ArrowRight className="h-3 w-3 text-[#E5C378]" />
-        </div>
-      </Link>
+      {/* FLOATING ACTION BUTTON & POPUP: Find Your Perfect Saree */}
+      <FloatingSareeMatch />
 
       {/* FOOTER */}
       <Footer />

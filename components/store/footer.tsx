@@ -153,13 +153,13 @@ export function Footer() {
                     <span
                       className="gold-quote text-center whitespace-nowrap text-[0.72rem] md:text-[0.82rem] lg:text-[1rem] xl:text-[1.18rem] mt-1 md:mt-1.5 lg:mt-2.5 select-none"
                     >
-                      Women with tradition, styled for today.
+                      Woven with Tradition, Styled for Today.
                     </span>
 
                     {/* Circular Outline Social Icons (Instagram, Facebook) starting under NiVi */}
                     <div className="flex items-center justify-center gap-1.5 md:gap-2 lg:gap-2.5 pt-1 md:pt-2 lg:pt-2.5 w-full">
                       <a
-                        href="https://instagram.com"
+                        href="https://www.instagram.com/brandnivi2026?exln=MmdzcWYyeXgyYXpm&utm_source=qr"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Instagram"
@@ -169,7 +169,7 @@ export function Footer() {
                       </a>
 
                       <a
-                        href="https://facebook.com"
+                        href="https://www.facebook.com/share/19crDqfPN3/?mibextid=wwXIfr"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Facebook"
@@ -276,10 +276,14 @@ export function Footer() {
                         </a>
                       </div>
                     </li>
-                    <li className="pt-0.5 text-[10.5px] xl:text-[11.5px] text-[#221811]/90 font-medium leading-tight">
+                    <li className="pt-0.5 text-[10.5px] xl:text-[11.5px] text-[#221811]/90 font-medium leading-tight space-y-1">
                       <div className="flex items-center gap-1">
                         <MapPin className="h-3 w-3 text-[#073C35] shrink-0" />
-                        <span>Peraiyur, Madurai and Maraimalainagar, Chennai</span>
+                        <span>Peraiyur, Madurai</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <MapPin className="h-3 w-3 text-[#073C35] shrink-0" />
+                        <span>Maraimalainagar, Chennai</span>
                       </div>
                       <span className="text-[9.5px] xl:text-[10px] text-[#694208] block pl-4">Tamil Nadu, India</span>
                     </li>
@@ -400,13 +404,13 @@ export function Footer() {
                       />
                     </Link>
                     <span className="gold-quote text-center whitespace-nowrap text-[0.76rem] mt-0.5 select-none">
-                      Women with tradition, styled for today.
+                      Woven with Tradition, Styled for Today.
                     </span>
 
                     {/* Circular Outline Social Icons right under tagline */}
                     <div className="flex items-center justify-center gap-2 pt-1">
                       <a
-                        href="https://instagram.com"
+                        href="https://www.instagram.com/brandnivi2026?exln=MmdzcWYyeXgyYXpm&utm_source=qr"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Instagram"
@@ -415,7 +419,7 @@ export function Footer() {
                         <InstagramIcon className="h-2.5 w-2.5" />
                       </a>
                       <a
-                        href="https://facebook.com"
+                        href="https://www.facebook.com/share/19crDqfPN3/?mibextid=wwXIfr"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Facebook"
@@ -501,9 +505,16 @@ export function Footer() {
                             </a>
                           </div>
                         </div>
-                        <div className="flex items-center justify-center gap-1 text-[10px] text-[#221811]/90 font-medium pt-1">
-                          <MapPin className="h-2.5 w-2.5 text-[#073C35] shrink-0" />
-                          <span>Peraiyur &bull; Maraimalainagar, Tamil Nadu</span>
+                        <div className="flex flex-col items-center justify-center gap-1 text-[10px] text-[#221811]/90 font-medium pt-1">
+                          <div className="flex items-center gap-1">
+                            <MapPin className="h-2.5 w-2.5 text-[#073C35] shrink-0" />
+                            <span>Peraiyur, Madurai</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <MapPin className="h-2.5 w-2.5 text-[#073C35] shrink-0" />
+                            <span>Maraimalainagar, Chennai</span>
+                          </div>
+                          <span className="text-[9px] text-[#694208]">Tamil Nadu, India</span>
                         </div>
                       </div>
 
@@ -554,13 +565,13 @@ export function Footer() {
                     className="h-6 md:h-7.5 w-auto object-contain mt-1 drop-shadow-sm"
                   />
                   <span className="gold-quote text-[0.88rem] md:text-[0.98rem] mt-0.5 select-none">
-                    Women with tradition, styled for today.
+                    Woven with Tradition, Styled for Today.
                   </span>
 
                   {/* Social Icons */}
                   <div className="flex items-center gap-2 pt-2">
                     <a
-                      href="https://instagram.com"
+                      href="https://www.instagram.com/brandnivi2026?exln=MmdzcWYyeXgyYXpm&utm_source=qr"
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Instagram"
@@ -569,7 +580,7 @@ export function Footer() {
                       <InstagramIcon className="h-3 w-3" />
                     </a>
                     <a
-                      href="https://facebook.com"
+                      href="https://www.facebook.com/share/19crDqfPN3/?mibextid=wwXIfr"
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Facebook"

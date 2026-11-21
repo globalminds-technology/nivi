@@ -110,7 +110,7 @@ export default function AboutPage() {
                 <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#1E1611]">
                   Our Roots Across Tamil Nadu
                 </h3>
-                <p className="font-serif text-xs sm:text-sm text-[#4A392D] font-bold max-w-md mx-auto">
+                <p className="font-serif text-base sm:text-lg text-[#3A2D23] font-bold max-w-xl mx-auto leading-relaxed">
                   Proudly rooted in Tamil Nadu, bridging heritage weaving clusters with doorstep delivery across India.
                 </p>
               </div>
@@ -164,7 +164,7 @@ export default function AboutPage() {
                 <h4 className="font-serif text-xl sm:text-2xl font-bold text-[#1E1611]">
                   Contact Us Directly
                 </h4>
-                <p className="font-serif text-xs sm:text-sm text-[#4A392D] font-bold">
+                <p className="font-serif text-base sm:text-lg text-[#3A2D23] font-bold leading-relaxed">
                   Connect with us for personalized saree recommendations, styling advice &amp; orders.
                 </p>
               </div>

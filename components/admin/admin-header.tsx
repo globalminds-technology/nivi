@@ -119,7 +119,7 @@ export function AdminHeader({ adminEmail, hideZohoBooks = false }: AdminHeaderPr
                   className="h-5 sm:h-6 w-auto object-contain select-none pointer-events-none drop-shadow-sm"
                 />
                 <span className="hidden sm:inline-block gold-quote text-[0.76rem] leading-none select-none">
-                  Women with tradition, styled for today
+                  Woven with Tradition, Styled for Today.
                 </span>
               </div>
             </Link>
@@ -143,7 +143,7 @@ export function AdminHeader({ adminEmail, hideZohoBooks = false }: AdminHeaderPr
                 />
                 <div>
                   <span className="gold-quote text-[0.84rem] xl:text-[0.92rem] leading-tight select-none mt-0.5">
-                   Women with tradition, styled for today.
+                   Woven with Tradition, Styled for Today.
                   </span>
                 </div>
               </div>

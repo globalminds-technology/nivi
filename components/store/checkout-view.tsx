@@ -26,6 +26,9 @@ import {
   Globe,
   MessageCircle,
   Phone,
+  QrCode,
+  Copy,
+  ExternalLink,
 } from "lucide-react";
 import { StorePoliciesDialog, type PolicyTabKey } from "./store-policies-dialog";
 import { toast } from "sonner";
@@ -246,6 +249,18 @@ export function CheckoutView({ products }: CheckoutViewProps) {
   const [policiesAgreed, setPoliciesAgreed] = useState(false);
   const [policyDialogOpen, setPolicyDialogOpen] = useState(false);
   const [policyDialogTab, setPolicyDialogTab] = useState<PolicyTabKey>("shipping");
+
+  // WhatsApp Checkout QR Modal / View State
+  const [whatsappOrderModalOpen, setWhatsappOrderModalOpen] = useState(false);
+  const [whatsappOrderData, setWhatsappOrderData] = useState<{
+    orderId: string;
+    totalFormatted: string;
+    itemsSummary: string;
+    customerSummary: string;
+    whatsappUrl: string;
+    upiPayUrl: string;
+    qrUrl: string;
+  } | null>(null);
 
   const openPolicyDialog = (tab: PolicyTabKey) => {
     setPolicyDialogTab(tab);
@@ -619,6 +634,67 @@ export function CheckoutView({ products }: CheckoutViewProps) {
 
       const snapshot = res.snapshot;
 
+      // =======================================================================
+      // DIRECT WHATSAPP CHECKOUT FLOW (Razorpay commented/bypassed)
+      // Redirects to interactive WhatsApp order checkout with UPI Payment QR
+      // =======================================================================
+      const totalAmountMajor = (res.amountMinor / 100).toFixed(2);
+      const totalFormatted = formatInr(res.amountMinor);
+
+      // Build itemized summary for WhatsApp message
+      const itemsText = items
+        .map((i) => {
+          const prod = products.find((p) => p.sku.toLowerCase() === i.sku.toLowerCase());
+          return `• ${prod?.name || i.sku} (Qty: ${i.qty})`;
+        })
+        .join("\n");
+
+      const shippingLabel = shippingMethod === "express" ? "Express Priority" : "Standard Shipping";
+      const deliveryAddressText = `${shippingLine1}${shippingLine2 ? `, ${shippingLine2}` : ""}, ${shippingCity}, ${shippingState} - ${shippingPincode}`;
+
+      const waOrderMessage = [
+        `*NEW ORDER ENQUIRY & CHECKOUT — NiVi SAREES*`,
+        `━━━━━━━━━━━━━━━━━━━━━━━━`,
+        `*Order ID:* ${res.orderId}`,
+        `*Customer:* ${name.trim()}`,
+        `*Phone:* ${countryCode} ${phone.trim()}`,
+        `*Email:* ${email.trim()}`,
+        ``,
+        `*Delivery Address:*`,
+        `${deliveryAddressText}`,
+        `*Shipping Speed:* ${shippingLabel}`,
+        ``,
+        `*Items Ordered:*`,
+        itemsText,
+        ``,
+        `*Total Order Amount:* ${totalFormatted}`,
+        `━━━━━━━━━━━━━━━━━━━━━━━━`,
+        `Please confirm my order and share payment verification. Thank you!`,
+      ].join("\n");
+
+      const targetWhatsappNumber = "919150992863"; // NiVi Official WhatsApp Concierge
+      const whatsappUrl = `https://wa.me/${targetWhatsappNumber}?text=${encodeURIComponent(waOrderMessage)}`;
+
+      // UPI deep-link specification: upi://pay?pa=...&pn=...&am=...&cu=INR&tn=...
+      const upiVpa = "9150992863@upi"; // Default business UPI VPA linked to NiVi phone number
+      const upiPayUrl = `upi://pay?pa=${encodeURIComponent(upiVpa)}&pn=${encodeURIComponent("NiVi Sarees")}&am=${totalAmountMajor}&cu=INR&tn=${encodeURIComponent(`Order ${res.orderId}`)}`;
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=10&data=${encodeURIComponent(upiPayUrl)}`;
+
+      setWhatsappOrderData({
+        orderId: res.orderId,
+        totalFormatted,
+        itemsSummary: itemsText,
+        customerSummary: `${name.trim()} (${countryCode} ${phone.trim()})`,
+        whatsappUrl,
+        upiPayUrl,
+        qrUrl,
+      });
+
+      setWhatsappOrderModalOpen(true);
+      setIsProcessingPayment(false);
+      return;
+
+      /* ── RAZORPAY INTEGRATION (COMMENTED OUT AS REQUESTED) ──
       // When Razorpay keys are not configured or in direct order mode, create order & invoice in Zoho Books directly
       if (res.keyId === "rzp_test_mode" || res.orderId.startsWith("order_test_")) {
         try {
@@ -777,6 +853,7 @@ export function CheckoutView({ products }: CheckoutViewProps) {
 
       const rzp = new window.Razorpay(razorpayOptions);
       rzp.open();
+      ── END OF COMMENTED RAZORPAY CODE ── */
     } catch (err: unknown) {
       console.error("Checkout submission failed:", err);
       toast.error(err instanceof Error ? err.message : "Checkout error");
@@ -1953,23 +2030,23 @@ export function CheckoutView({ products }: CheckoutViewProps) {
                       </div>
                     </div>
 
-                    {/* Payment Mode Banner */}
+                    {/* Payment Mode Banner - Direct WhatsApp Checkout */}
                     <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#E7DFD5] flex items-center justify-between gap-3">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
-                          <Lock className="w-4 h-4 text-emerald-700" />
+                          <MessageCircle className="w-4.5 h-4.5 text-emerald-700" />
                         </div>
                         <div>
                           <p className="text-xs sm:text-sm font-semibold text-[#30251F]">
-                            Online Payment via Razorpay
+                            WhatsApp Direct Order &amp; UPI QR Payment
                           </p>
                           <p className="text-[11px] text-[#786960]">
-                            UPI (GPay, PhonePe, Paytm), Cards, NetBanking
+                            Instant Order Placement &bull; UPI QR (GPay, PhonePe, Paytm) &bull; Concierge Assistance
                           </p>
                         </div>
                       </div>
                       <Badge variant="outline" className="text-[10px] bg-emerald-50 text-emerald-700 border-emerald-300 shrink-0 font-medium">
-                        100% Secure
+                        Instant WhatsApp
                       </Badge>
                     </div>
 
@@ -2149,16 +2226,16 @@ export function CheckoutView({ products }: CheckoutViewProps) {
                     <span>Back to Address</span>
                   </Button>
 
-                  {/* The EXACT Pay Button from Image 3 */}
+                  {/* Place Order on WhatsApp Button */}
                   <Button
                     onClick={handleProceedToPayment}
                     disabled={isQuoting || isProcessingPayment || isPending || items.length === 0 || !shippingMethod}
-                    className="w-full sm:flex-1 h-12 px-8 text-sm sm:text-base font-semibold tracking-wide gap-2.5 rounded-full cursor-pointer bg-[#073C35] hover:bg-[#052C27] text-white shadow-md disabled:opacity-60 disabled:cursor-not-allowed transition-all"
+                    className="w-full sm:flex-1 h-12 px-8 text-sm sm:text-base font-semibold tracking-wide gap-2.5 rounded-full cursor-pointer bg-emerald-800 hover:bg-emerald-900 text-white shadow-md disabled:opacity-60 disabled:cursor-not-allowed transition-all"
                   >
                     {isProcessingPayment ? (
                       <>
                         <span className="animate-spin mr-1">⏳</span>
-                        <span>Opening Razorpay Payment...</span>
+                        <span>Preparing WhatsApp Order...</span>
                       </>
                     ) : !shippingMethod ? (
                       <>
@@ -2167,8 +2244,8 @@ export function CheckoutView({ products }: CheckoutViewProps) {
                       </>
                     ) : (
                       <>
-                        <Lock className="w-4 h-4 shrink-0" />
-                        <span>Pay {quote ? formatInr(displayedTotalMinor) : ""} Securely</span>
+                        <MessageCircle className="w-4.5 h-4.5 shrink-0" />
+                        <span>Place Order via WhatsApp ({quote ? formatInr(displayedTotalMinor) : ""})</span>
                       </>
                     )}
                   </Button>
@@ -2184,6 +2261,131 @@ export function CheckoutView({ products }: CheckoutViewProps) {
         onClose={() => setPolicyDialogOpen(false)}
         defaultTab={policyDialogTab}
       />
+
+      {/* WhatsApp Checkout & UPI QR Code Dialogue Modal */}
+      {whatsappOrderModalOpen && whatsappOrderData && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="relative w-full max-w-lg rounded-3xl bg-[#FFFDF9] border-2 border-[#C9A45C] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 max-h-[92vh] flex flex-col">
+            
+            {/* Modal Header */}
+            <div className="px-5 py-4 bg-gradient-to-r from-[#04201c] via-[#073C35] to-[#0A483F] text-white flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-full bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300">
+                  <MessageCircle className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-serif text-base sm:text-lg font-bold text-[#FFFDF9] leading-tight">
+                    WhatsApp Order Checkout
+                  </h3>
+                  <p className="text-[11px] text-[#E5C378] font-mono">
+                    Order Ref: #{whatsappOrderData.orderId}
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setWhatsappOrderModalOpen(false)}
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
+                aria-label="Close modal"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-5 sm:p-6 overflow-y-auto space-y-5 text-[#30251F]">
+              
+              {/* Order Total Highlight */}
+              <div className="p-4 rounded-2xl bg-[#FAF6EE] border border-[#C9A45C]/50 flex items-center justify-between">
+                <div>
+                  <span className="text-xs font-semibold text-[#6B5A4A] uppercase tracking-wider block">
+                    Total Amount Due
+                  </span>
+                  <span className="text-2xl sm:text-3xl font-mono font-bold text-[#073C35]">
+                    {whatsappOrderData.totalFormatted}
+                  </span>
+                </div>
+                <div className="text-right">
+                  <span className="text-[11px] text-emerald-800 bg-emerald-100 font-semibold px-2.5 py-1 rounded-full border border-emerald-300 inline-block">
+                    Concierge Ready
+                  </span>
+                </div>
+              </div>
+
+              {/* UPI Payment QR Code Section */}
+              <div className="text-center p-4 sm:p-5 rounded-2xl bg-white border border-[#E7DFD5] shadow-xs space-y-3">
+                <div className="flex items-center justify-center gap-1.5 text-xs font-bold text-[#073C35] uppercase tracking-wider">
+                  <QrCode className="w-4 h-4 text-[#C9A45C]" />
+                  <span>Scan QR with Any UPI App</span>
+                </div>
+
+                <div className="relative inline-block p-3 rounded-2xl bg-[#FAF8F5] border-2 border-dashed border-[#C9A45C]/60 shadow-inner">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={whatsappOrderData.qrUrl}
+                    alt="UPI Payment QR Code"
+                    width={200}
+                    height={200}
+                    className="w-48 h-48 sm:w-52 sm:h-52 mx-auto rounded-lg object-contain bg-white p-1"
+                  />
+                  <div className="mt-2 flex items-center justify-center gap-2 text-[11px] font-mono text-[#5C4D42]">
+                    <span>UPI ID: <strong>9150992863@upi</strong></span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText("9150992863@upi");
+                        toast.success("UPI ID copied to clipboard!");
+                      }}
+                      className="text-[#073C35] hover:text-[#C9A45C] transition-colors cursor-pointer"
+                      title="Copy UPI ID"
+                    >
+                      <Copy className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+
+                <p className="text-[11px] text-[#786960] max-w-xs mx-auto">
+                  Scan using Google Pay, PhonePe, Paytm, or BHIM to pay {whatsappOrderData.totalFormatted}.
+                </p>
+              </div>
+
+              {/* Customer & Item Preview */}
+              <div className="p-3.5 rounded-xl bg-[#FAF8F5] border border-[#E7DFD5] text-xs space-y-1.5">
+                <div className="flex justify-between text-[#6B5A4A]">
+                  <span>Customer:</span>
+                  <span className="font-semibold text-[#30251F]">{whatsappOrderData.customerSummary}</span>
+                </div>
+                <div className="border-t border-[#E7DFD5]/60 pt-1.5 text-[#5C4D42] text-[11px] space-y-1 whitespace-pre-line">
+                  {whatsappOrderData.itemsSummary}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="space-y-2.5 pt-1">
+                <a
+                  href={whatsappOrderData.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => {
+                    clearCart();
+                    toast.success("Opening WhatsApp with your order summary!");
+                  }}
+                  className="w-full h-12 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white font-semibold text-sm sm:text-base flex items-center justify-center gap-2.5 shadow-md hover:shadow-lg transition-all"
+                >
+                  <MessageCircle className="w-5 h-5 fill-white" />
+                  <span>Send Order to WhatsApp Concierge</span>
+                  <ExternalLink className="w-4 h-4 opacity-80" />
+                </a>
+
+                <p className="text-center text-[11px] text-[#786960]">
+                  Our team will verify your payment screenshot on WhatsApp and dispatch your order with tracking!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

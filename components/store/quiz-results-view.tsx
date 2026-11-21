@@ -119,6 +119,24 @@ export function QuizResultsView({
     return filtered.length > 0 ? filtered : inStockProducts.slice(0, 10);
   }, [recommendation, answers, inStockProducts]);
 
+  const hasSpecificMatch = useMemo(() => {
+    const targetFabric = (recommendation.fabric || "").toLowerCase();
+    const targetOccasion = (answers.occasion || "").toLowerCase();
+    const targetBorder = (answers.border || "").toLowerCase();
+
+    return inStockProducts.some((p) => {
+      const pName = p.name.toLowerCase();
+      const pCat = (p.category || "").toLowerCase();
+      const pFabric = (p.attributes?.fabric || "").toLowerCase();
+      if ((pFabric && targetFabric.includes(pFabric)) || (targetFabric && (pName.includes(targetFabric) || pCat.includes(targetFabric)))) return true;
+      const keywords = targetFabric.split(/\s+/).filter((w) => w.length > 3);
+      if (keywords.some((kw) => pName.includes(kw) || pCat.includes(kw) || pFabric.includes(kw))) return true;
+      if (p.attributes?.occasion && p.attributes.occasion.some((occ) => targetOccasion.includes(occ.toLowerCase()))) return true;
+      if (p.attributes?.border && targetBorder.includes(p.attributes.border.toLowerCase())) return true;
+      return false;
+    });
+  }, [recommendation, answers, inStockProducts]);
+
   return (
     <div className="container mx-auto px-4 sm:px-6 space-y-10 sm:space-y-14">
       {/* Breadcrumb Navigation */}
@@ -239,7 +257,9 @@ export function QuizResultsView({
               Curated Handcrafted Sarees
             </h2>
             <p className="text-xs sm:text-sm text-[#6B5A4A]">
-              In-stock masterweaves matching your {recommendation.fabric} recommendation and occasion profile.
+              {hasSpecificMatch
+                ? `In-stock masterweaves matching your ${recommendation.fabric} recommendation and occasion profile.`
+                : `Handcrafted in-stock sarees from our atelier curated to complement your silhouette and styling profile.`}
             </p>
           </div>
 
